@@ -5,4 +5,5 @@ This is a sample project to demonstrate how to build a RESTful API using Ktor an
 
 - Kotlin
 - Ktor
+- Koin
 - exposed
