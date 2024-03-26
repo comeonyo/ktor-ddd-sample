@@ -8,6 +8,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 
 class UserServiceTest {
@@ -28,5 +29,29 @@ class UserServiceTest {
         assertNotNull(result)
         assertEquals(expectedUser, result)
         verify(exactly = 1) { userRepository.getUserById(userId) }
+    }
+
+    @Test
+    fun `getUserById throws NoSuchElementException when user does not exist`() {
+        // Given
+        val userId = 1
+        every { userRepository.getUserById(userId) } returns null
+
+        // When & Then
+        assertFailsWith<NoSuchElementException> {
+            sut.getUserById(userId)
+        }
+    }
+
+    @Test
+    fun `registerUser throws IllegalArgumentException when user with name already exists`() {
+        // Given
+        val userName = "john doe"
+        every { userRepository.existsByName(userName) } returns true
+
+        // When & Then
+        assertFailsWith<IllegalArgumentException> {
+            sut.registerUser(userName, "john@comeonyo.com", "password")
+        }
     }
 }
