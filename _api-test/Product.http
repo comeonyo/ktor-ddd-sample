@@ -1,0 +1,15 @@
+
+POST http://{{domain}}/products
+Content-Type: application/json
+
+{
+    "name": "product-1",
+    "price": 99
+}
+###
+
+GET http://{{domain}}/products
+###
+
+GET http://{{domain}}/products/1
+###

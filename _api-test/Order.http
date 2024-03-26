@@ -1,0 +1,14 @@
+POST http://{{domain}}/orders
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "productId": 1
+}
+###
+
+GET http://{{domain}}/orders
+###
+
+GET http://{{domain}}/orders/1
+###

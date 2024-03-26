@@ -1,0 +1,11 @@
+ktor:
+  environment: "$KTOR_ENV:dev"
+  application:
+    modules:
+      - com.comeonyo.ApplicationKt.module
+  deployment:
+    port: "$PORT:8080"
+
+storage:
+  driverClassName: "org.h2.Driver"
+  jdbcURL: "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;"

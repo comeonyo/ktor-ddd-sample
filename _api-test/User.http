@@ -1,0 +1,15 @@
+POST http://{{domain}}/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@comeonyo.com",
+  "encodedPassword": "password"
+}
+###
+
+GET http://{{domain}}/users
+###
+
+GET http://{{domain}}/users/1
+###
