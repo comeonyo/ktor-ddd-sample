@@ -60,4 +60,5 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("io.ktor:ktor-client-content-negotiation:$kotlinVersion")
     testImplementation("io.insert-koin:koin-test:$koinVersion")
+    testImplementation("io.mockk:mockk:1.13.10")
 }
