@@ -1,11 +1,11 @@
 package com.comeonyo
 
-import com.comeonyo.application.features.configureCallLogging
-import com.comeonyo.application.features.configureContentNegotiation
-import com.comeonyo.application.features.configureExceptionHandling
-import com.comeonyo.application.routes.configureRouting
 import com.comeonyo.domain.di.appModule
 import com.comeonyo.infra.database.DbInitializer
+import com.comeonyo.server.features.configureCallLogging
+import com.comeonyo.server.features.configureContentNegotiation
+import com.comeonyo.server.features.configureExceptionHandling
+import com.comeonyo.server.routes.configureRouting
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import org.koin.ktor.plugin.Koin
@@ -23,6 +23,6 @@ fun Application.module() {
 
     configureCallLogging()
     configureContentNegotiation()
-    configureRouting()
     configureExceptionHandling()
+    configureRouting()
 }

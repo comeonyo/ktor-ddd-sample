@@ -1,4 +1,4 @@
-package com.comeonyo.application.features
+package com.comeonyo.server.features
 
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application

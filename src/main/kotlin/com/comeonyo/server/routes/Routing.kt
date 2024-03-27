@@ -1,4 +1,4 @@
-package com.comeonyo.application.routes
+package com.comeonyo.server.routes
 
 import io.ktor.server.application.Application
 import io.ktor.server.routing.routing

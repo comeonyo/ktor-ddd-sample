@@ -1,7 +1,7 @@
-package com.comeonyo.application.routes
+package com.comeonyo.server.routes
 
-import com.comeonyo.domain.application.order.OrderApplicationService
-import com.comeonyo.domain.application.order.dto.ProcessOrderRequest
+import com.comeonyo.domain.application.user.UserApplicationService
+import com.comeonyo.domain.application.user.dto.RegisterUserRequest
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
@@ -12,31 +12,31 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.koin.ktor.ext.inject
 
-fun Route.orderRoutes() {
-    val orderApplicationService by inject<OrderApplicationService>()
+fun Route.userRoutes() {
+    val userApplicationService by inject<UserApplicationService>()
 
-    route("/orders") {
+    route("/users") {
         post {
-            val dto = call.receive<ProcessOrderRequest>()
-            val processedOrder = orderApplicationService.processOrder(dto)
+            val dto = call.receive<RegisterUserRequest>()
+            val registeredUser = userApplicationService.registerUser(dto)
 
             call.respond(
                 HttpStatusCode.Created,
-                processedOrder,
+                registeredUser,
             )
         }
 
         get {
             call.respond(
                 HttpStatusCode.OK,
-                orderApplicationService.getOrders(),
+                userApplicationService.getUsers(),
             )
         }
 
         get("/{id}") {
             call.respond(
                 HttpStatusCode.OK,
-                orderApplicationService.getOrderById(call.parameters["id"]!!.toInt()),
+                userApplicationService.getUserById(call.parameters["id"]!!.toInt()),
             )
         }
     }
