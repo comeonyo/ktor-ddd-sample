@@ -11,7 +11,7 @@ data class GetOrderResponse(
     companion object {
         fun fromOrder(order: com.comeonyo.domain.domain.order.Order): GetOrderResponse {
             return GetOrderResponse(
-                id = order.id,
+                id = order.id.value,
                 userId = order.userId,
                 productId = order.productId,
             )

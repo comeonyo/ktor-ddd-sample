@@ -1,48 +1,26 @@
 package com.comeonyo.domain.domain.order
 
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class OrderRepositoryImpl : OrderRepository {
     override fun createOrder(
         userId: Int,
         productId: Int,
-    ): Order {
-        var orderId: Int? = null
+    ): Order =
         transaction {
-            orderId = OrderTable.insert {
-                it[OrderTable.userId] = userId
-                it[OrderTable.productId] = productId
-            } get OrderTable.id
+            Order.new {
+                this.userId = userId
+                this.productId = productId
+            }
         }
-        return getOrderById(orderId!!)!!
-    }
 
-    override fun getOrders(): List<Order> {
-        return transaction {
-            OrderTable.selectAll()
-                .map {
-                    Order(
-                        id = it[OrderTable.id],
-                        userId = it[OrderTable.userId],
-                        productId = it[OrderTable.productId],
-                    )
-                }
+    override fun getOrders(): List<Order> =
+        transaction {
+            Order.all().toList()
         }
-    }
 
-    override fun getOrderById(id: Int): Order? {
-        return transaction {
-            OrderTable.select { OrderTable.id eq id }
-                .map {
-                    Order(
-                        id = it[OrderTable.id],
-                        userId = it[OrderTable.userId],
-                        productId = it[OrderTable.productId],
-                    )
-                }.firstOrNull()
+    override fun getOrderById(id: Int): Order? =
+        transaction {
+            Order.findById(id)
         }
-    }
 }
