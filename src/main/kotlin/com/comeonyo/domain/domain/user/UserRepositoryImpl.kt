@@ -1,8 +1,6 @@
 package com.comeonyo.domain.domain.user
 
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class UserRepositoryImpl : UserRepository {
@@ -10,56 +8,31 @@ class UserRepositoryImpl : UserRepository {
         name: String,
         email: String,
         encodedPassword: String,
-    ): User {
-        var userId: Int? = null
+    ): User =
         transaction {
-            userId = UserTable.insert {
-                it[UserTable.name] = name
-                it[UserTable.email] = email
-                it[password] = encodedPassword
-            } get UserTable.id
-        }
-        return getUserById(userId!!)!!
-    }
-
-    override fun getUsers(): List<User> {
-        return transaction {
-            UserTable.selectAll().map {
-                User(
-                    id = it[UserTable.id],
-                    name = it[UserTable.name],
-                    email = it[UserTable.email],
-                    password = it[UserTable.password],
-                )
+            User.new {
+                this.name = name
+                this.email = email
+                this.password = encodedPassword
             }
         }
-    }
 
-    override fun getUserById(id: Int): User? {
-        return transaction {
-            UserTable.select { UserTable.id eq id }.map {
-                User(
-                    id = it[UserTable.id],
-                    name = it[UserTable.name],
-                    email = it[UserTable.email],
-                    password = it[UserTable.password],
-                )
-            }.firstOrNull()
+    override fun getUsers(): List<User> =
+        transaction {
+            User.all().toList()
         }
-    }
 
-    override fun getUserByName(name: String): User? {
-        return transaction {
-            UserTable.select { UserTable.name eq name }.map {
-                User(
-                    id = it[UserTable.id],
-                    name = it[UserTable.name],
-                    email = it[UserTable.email],
-                    password = it[UserTable.password],
-                )
-            }.firstOrNull()
+    override fun getUserById(id: Int): User? =
+        transaction {
+            User.findById(id)
         }
-    }
+
+    override fun getUserByName(name: String): User? =
+        transaction {
+            UserTable.select { UserTable.name eq name }
+                .map { User.wrapRow(it) }
+                .singleOrNull()
+        }
 
     override fun existsById(id: Int): Boolean {
         return getUserById(id) != null
